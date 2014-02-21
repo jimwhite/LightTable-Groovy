@@ -1,2 +1,5 @@
 #!/bin/sh
-javac -cp /Users/jim/Projects/Groovy/groovy-2.2.1/embeddable/groovy-all-2.2.1.jar -d classes java-src/*
+
+GROOVY_BIN=`which groovy`
+GROOVY_ALL_JAR=`find "$GROOVY_BIN/../../embeddable" -type f ! -name "*-indy.jar"`
+javac -cp "$GROOVY_ALL_JAR" -d classes java-src/*
