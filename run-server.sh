@@ -5,4 +5,4 @@
 
 
 cd groovy-src
-groovy -cp ../classes:. LTServer.groovy $@
+LT_GROOVY_LOG=true groovy -cp ../classes:. LTServer.groovy $@
