@@ -1,6 +1,7 @@
 import org.codehaus.groovy.control.MultipleCompilationErrorsException
 import org.codehaus.groovy.runtime.StackTraceUtils
-
+import org.codehaus.groovy.control.CompilerConfiguration
+import org.codehaus.groovy.control.customizers.ASTTransformationCustomizer
 
 class ScriptExecutor {
   static def execute(String scriptText) {
@@ -13,6 +14,9 @@ class ScriptExecutor {
     def errWriter = new PrintWriter(stacktrace)
 
     def aBinding = new Binding([out: printStream])
+
+    def conf = new CompilerConfiguration()
+    conf.addCompilationCustomizers(new ASTTransformationCustomizer(new LogScriptTransform()))
 
     def emcEvents = []
     def listener = { MetaClassRegistryChangeEvent event ->
@@ -29,7 +33,7 @@ class ScriptExecutor {
 
     def result = ""
     try {
-      result = new GroovyShell(aBinding).evaluate(scriptText)
+      result = new GroovyShell(aBinding, conf).evaluate(scriptText)
     } catch (MultipleCompilationErrorsException e) {
       stacktrace.append(e.message - 'startup failed, Script1.groovy: ')
     } catch (Throwable t) {

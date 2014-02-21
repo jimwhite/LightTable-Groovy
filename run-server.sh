@@ -5,4 +5,4 @@
 
 
 cd groovy-src
-groovy LTServer.groovy $@
+groovy -cp ../classes:. LTServer.groovy $@
